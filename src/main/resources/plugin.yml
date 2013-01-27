@@ -1,0 +1,23 @@
+##  Plugin Information  ##
+name: OrangeServer
+version: version-number-unknown
+main: net.orange_server.orangeserver.OrangeServer
+description: Minecraft OrangeServer plugin
+website: http://orange-server.net/
+softdepend: [PermissionsEx, dynmap, Vault, MCBans]
+##  Original Author     ##
+author: syamn
+commands:
+    admin:
+      usage: /admin - to see the help
+      description: See plugin help.
+    orangeserver:
+      usage: /orangeserver - to see the help
+      description: See plugin help.
+    confirm:
+      usage: /confirm - to see the help
+      description: See plugin help.
+permissions:
+    orangeserver.admin:
+        default: op
+        description: Give to admins

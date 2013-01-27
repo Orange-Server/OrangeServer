@@ -1,0 +1,54 @@
+# SakuraCmd Configuration File!
+# @author syamn <admin@sakura-server.net>
+# github: https://github.com/SakuraServer/SakuraCmd
+
+#====================#
+#   General Config   #
+#====================#
+UseNamePrefix: true
+UseDisplayName: true
+UseEconomy: true
+
+#==================#
+#   GeoIP Config   #
+#==================#
+UseGeoIP: true
+UseCityDB: true
+UseSimpleFormatOnJoin: true
+DownloadMissingDB: true
+CountryDB: "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
+CityDB: "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
+
+#====================#
+#   Message Config   #
+#====================#
+language: ja-jp
+
+#==================#
+#   MySQL Config   #
+#==================#
+MySQL:
+  Server:
+    Address: localhost
+    Port: 3306
+  Database:
+    Name: DatabaseName
+    User_Name: UserName
+    User_Password: UserPassword
+
+#========================#
+#   Permission Control   #
+#========================#
+# Supported controller: PermissionsEx, SuperPerms
+Permission: "PermissionsEx"
+
+#==================#
+#   Debug Config   #
+#==================#
+Debug: false
+
+#==================#
+#   DO NOT TOUCH   #
+#==================#
+# Do not touch this option! It is a check if you are running the recent configuration version
+ConfigVersion: 1
