@@ -76,10 +76,12 @@ public class DynmapHandler {
         dynmap = pm.getPlugin("dynmap");
         if (dynmap == null){
             LogUtil.warning("Cannot find dynmap!");
+            return;
         }
         
         if (!dynmap.isEnabled()){
             LogUtil.warning("Dynmap is not enabled!");
+            return;
         }
         
         // get api
