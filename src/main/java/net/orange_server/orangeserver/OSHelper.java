@@ -11,6 +11,7 @@ import net.orange_server.orangeserver.player.PlayerManager;
 import net.orange_server.orangeserver.storage.ConfigurationManager;
 import net.orange_server.orangeserver.storage.Database;
 import net.orange_server.orangeserver.storage.I18n;
+import net.orange_server.orangeserver.storage.ServerData;
 import net.orange_server.orangeserver.utils.plugin.DynmapHandler;
 import net.orange_server.orangeserver.utils.plugin.OrangeServerUtil;
 import net.orange_server.orangeserver.worker.FlymodeWorker;
@@ -39,6 +40,8 @@ public class OSHelper {
     
     private OrangeServer plugin;
     private ConfigurationManager config;
+    private ServerData saveData;
+    
     private int flymodeTaskID = -1;
     private boolean isEnableEcon = false;
     
@@ -101,17 +104,24 @@ public class OSHelper {
         for (final Player player : Bukkit.getOnlinePlayers()){
             PlayerManager.addPlayer(player);
         }
+        
+        // last restore save data
+        saveData.loadRestore();
     }
     
     public void setMainPlugin(final OrangeServer plugin){
         mainThreadID = Thread.currentThread().getId();
         this.plugin = plugin;
         this.config = new ConfigurationManager(plugin);
+        this.saveData = new ServerData(plugin);
         
         init();
     }
     
     public void disableAll(){
+        // first save all data
+        saveData.save();
+        
         if (flymodeTaskID != -1){
             plugin.getServer().getScheduler().cancelTask(flymodeTaskID);
             flymodeTaskID = -1;
