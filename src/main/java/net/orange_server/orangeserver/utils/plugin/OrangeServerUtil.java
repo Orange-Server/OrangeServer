@@ -50,6 +50,20 @@ public class OrangeServerUtil {
         }
     }
     
+    public static void changeFlyMode(final Player player, final boolean enable){
+        if (player == null) return;
+        
+        if (enable){
+            player.setAllowFlight(true);
+            player.setFlying(true);
+            player.setFallDistance(1F);
+        }else{
+            player.setAllowFlight(false);
+            player.setFlying(false);
+            player.setFallDistance(0.0F);
+        }
+    }
+    
     public static void sendlog(final String msg){
         Perms.LOG.message("&c[通知]&f " + msg);
     }

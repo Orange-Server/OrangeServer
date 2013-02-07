@@ -54,9 +54,6 @@ public class PlayerData{
     }
     
     private boolean load(final File file){
-        if (true) return true;
-        //TODO: not implemented!
-        
         this.file = file;
         if (!file.exists()){
             if (!file.getParentFile().exists()){
@@ -87,7 +84,6 @@ public class PlayerData{
                     }
                 }
             }
-            
         }catch (Exception ex){
             ex.printStackTrace();
             return false;
@@ -119,10 +115,7 @@ public class PlayerData{
         return true;
     }
     
-    public boolean save(final boolean force){
-        if (true) return true;
-        //TODO: not implemented!
-        
+    public boolean save(final boolean force){        
         if (!saved || force){
             try{
                 // save infos

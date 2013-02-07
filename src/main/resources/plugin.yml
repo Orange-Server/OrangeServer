@@ -17,6 +17,9 @@ commands:
     confirm:
       usage: /confirm - to see the help
       description: See plugin help.
+    flymode:
+      usage: /flymode - to see the help
+      description: See plugin help.
 permissions:
     orangeserver.admin:
         default: op

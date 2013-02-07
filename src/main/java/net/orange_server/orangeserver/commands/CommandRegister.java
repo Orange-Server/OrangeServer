@@ -10,6 +10,7 @@ import java.util.Set;
 import net.orange_server.orangeserver.commands.other.AdminCommand;
 import net.orange_server.orangeserver.commands.other.ConfirmCommand;
 import net.orange_server.orangeserver.commands.other.OrangeServerCommand;
+import net.orange_server.orangeserver.commands.player.FlymodeCommand;
 
 /**
  * CommandRegister (CommandRegister.java)
@@ -26,6 +27,7 @@ public class CommandRegister {
         // Server Commands
         
         // Player Commands
+        cmds.add(new FlymodeCommand());
         
         // World Commands
         

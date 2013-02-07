@@ -23,6 +23,7 @@ public enum Perms {
     // Server Commands
     
     // Player Commands
+    FLYMODE ("player.flymode"),
     
     // World Commands
     

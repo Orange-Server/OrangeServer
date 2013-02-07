@@ -9,6 +9,14 @@ UseNamePrefix: true
 UseDisplayName: true
 UseEconomy: true
 
+#====================#
+#   Flymode Config   #
+#====================#
+Flymode:
+  Cost: 1000.0
+  TimeInMinutes: 20
+  PlayerLimit: 5
+
 #==================#
 #   GeoIP Config   #
 #==================#

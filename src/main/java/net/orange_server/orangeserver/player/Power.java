@@ -11,7 +11,7 @@ import java.util.Locale;
  * @author syam(syamn)
  */
 public enum Power {
-    
+    FLYMODE,
     ;
     
     @Override

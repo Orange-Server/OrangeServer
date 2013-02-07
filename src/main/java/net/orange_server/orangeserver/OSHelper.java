@@ -13,6 +13,7 @@ import net.orange_server.orangeserver.storage.Database;
 import net.orange_server.orangeserver.storage.I18n;
 import net.orange_server.orangeserver.utils.plugin.DynmapHandler;
 import net.orange_server.orangeserver.utils.plugin.OrangeServerUtil;
+import net.orange_server.orangeserver.worker.FlymodeWorker;
 import net.syamn.utils.LogUtil;
 import net.syamn.utils.queue.ConfirmQueue;
 
@@ -38,7 +39,7 @@ public class OSHelper {
     
     private OrangeServer plugin;
     private ConfigurationManager config;
-    private int afkTaskID = -1;
+    private int flymodeTaskID = -1;
     private boolean isEnableEcon = false;
     
     private boolean enabledMCB = false;
@@ -71,6 +72,11 @@ public class OSHelper {
         // connect database
         Database db = Database.getInstance(plugin);
         db.createStructure();
+        
+        // worker
+        net.orange_server.orangeserver.worker.FlymodeWorker.getInstance(); // Flymode worker
+        flymodeTaskID = this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(
+                this.plugin, FlymodeWorker.getInstance().getTask(), 0, 20).getTaskId();
         
         PermissionManager.setupPermissions(plugin); // init permission
         
@@ -106,10 +112,12 @@ public class OSHelper {
     }
     
     public void disableAll(){
-        if (afkTaskID != -1){
-            plugin.getServer().getScheduler().cancelTask(afkTaskID);
-            afkTaskID = -1;
+        if (flymodeTaskID != -1){
+            plugin.getServer().getScheduler().cancelTask(flymodeTaskID);
+            flymodeTaskID = -1;
         }
+        
+        net.orange_server.orangeserver.worker.FlymodeWorker.dispose();
         
         if (DynmapHandler.getInstance() != null){
             DynmapHandler.getInstance().deactivate();

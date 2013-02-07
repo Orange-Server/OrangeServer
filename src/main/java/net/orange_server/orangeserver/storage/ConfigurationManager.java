@@ -124,6 +124,17 @@ public class ConfigurationManager {
     public boolean getUseEconomy(){
         return conf.getBoolean("UseEconomy", true);
     }
+            
+    // Flymode
+    public double getFlymodeCost(){
+        return conf.getDouble("Flymode.Cost", 1000.0D);
+    }
+    public int getFlymodeTimeInMinutes(){
+        return conf.getInt("Flymode.TimeInMinutes", 20);
+    }
+    public int getFlymodePlayersLimit(){
+        return conf.getInt("Flymode.PlayerLimit", 5);
+    }
     
     // GeoIP
     public boolean getUseGeoIP(){
