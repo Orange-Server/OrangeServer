@@ -8,7 +8,7 @@ import net.orange_server.orangeserver.OSHelper;
 import net.orange_server.orangeserver.permission.PermissionManager;
 import net.orange_server.orangeserver.permission.Perms;
 import net.orange_server.orangeserver.storage.ConfigurationManager;
-import net.orange_server.orangeserver.utils.plugin.OrangeServerUtil;
+import net.orange_server.orangeserver.worker.FlymodeWorker;
 import net.syamn.utils.Util;
 
 import org.bukkit.entity.Player;
@@ -87,6 +87,11 @@ public class OrangePlayer {
     
     public void initStatus(){
         //this.isAfk = false;
+    }
+    
+    public void restorePowers(){
+        // Flymode power
+        FlymodeWorker.getInstance().checkRestoreFlymode(this);
     }
     
     private void removePowerNotPerms(final Power power, final Perms perms){

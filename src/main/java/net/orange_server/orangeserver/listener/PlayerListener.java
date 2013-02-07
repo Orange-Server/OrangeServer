@@ -4,13 +4,18 @@
  */
 package net.orange_server.orangeserver.listener;
 
+import java.util.ArrayList;
+
 import net.orange_server.orangeserver.OSHelper;
 import net.orange_server.orangeserver.OrangeServer;
 import net.orange_server.orangeserver.feature.GeoIP;
 import net.orange_server.orangeserver.permission.Perms;
 import net.orange_server.orangeserver.player.OrangePlayer;
+import net.orange_server.orangeserver.player.PlayerData;
 import net.orange_server.orangeserver.player.PlayerManager;
+import net.orange_server.orangeserver.player.Power;
 import net.orange_server.orangeserver.utils.plugin.OrangeServerUtil;
+import net.orange_server.orangeserver.worker.FlymodeWorker;
 import net.syamn.utils.Util;
 
 import org.bukkit.entity.Player;
@@ -35,8 +40,15 @@ public class PlayerListener implements Listener{
     public void onPlayerJoin(final PlayerJoinEvent event){
         final Player player = event.getPlayer();
         final OrangePlayer op = PlayerManager.getPlayer(player);
+        final ArrayList<String> notify = new ArrayList<String>();
         
         String msg = event.getJoinMessage();
+        
+        // restore powers
+        op.restorePowers();
+        if (op.hasPower(Power.FLYMODE)){
+            notify.add("&bあなたはあと &a" + FlymodeWorker.getInstance().getRemainTime(player) + "間 &b飛行可能です");
+        }
         
         // Use GeoIP if enabled
         if (OSHelper.getInstance().getConfig().getUseGeoIP() && !Perms.HIDE_GEOIP.has(player)){
@@ -49,6 +61,26 @@ public class PlayerListener implements Listener{
         
         // Change TabColor
         OrangeServerUtil.changeTabColor(player);
+        
+        // Send notify
+        if (notify.size() > 0){
+            plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+                @Override public void run(){
+                    for (final String line : notify){
+                        Util.message(player, line);
+                    }
+                    notify.clear();
+                }
+            }, 5L);
+        }
+        
+        // Run async
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override public void run(){
+                PlayerData data = op.getData();
+                data.setLastIP(player.getAddress().getAddress().getHostAddress());
+            }
+        });
         
         // First join
         /*

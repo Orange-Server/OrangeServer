@@ -4,29 +4,13 @@
  */
 package net.orange_server.orangeserver.listener.feature;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import net.orange_server.orangeserver.OrangeServer;
-import net.syamn.utils.LogUtil;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import com.mcbans.firestar.mcbans.events.PlayerBannedEvent;
+import com.mcbans.firestar.mcbans.events.PlayerGlobalBanEvent;
 
 /**
  * MCBansListener (MCBansListener.java)
@@ -38,8 +22,9 @@ public class MCBansListener implements Listener{
         this.plugin = plugin;
     }
     
-    //@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerBanned(final PlayerBannedEvent event){
-        throw new NotImplementedException();
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerGlobalBan(final PlayerGlobalBanEvent event){
+        String s = event.getReason() + " - dispute @ mcbans.com (" + event.getSenderName()+")";
+        event.setReason(s);
     }
 }
