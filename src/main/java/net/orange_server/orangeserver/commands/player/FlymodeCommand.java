@@ -71,7 +71,7 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
             
             ConfirmQueue.getInstance().addQueue(sender, this, null, 15);
             
-            Util.message(sender, "&6現在の飛行権価格は &a" + getDuration() + "分間 " + getCost() + " Coin &6です");
+            Util.message(sender, "&6現在の飛行権価格は &a" + getDuration() + "分間 " + getCost() + " Gold &6です");
             Util.message(sender, "&6一部ワールドでのみ飛行可能になります");
             Util.message(sender, "&6本当に購入しますか？ &a/confirm&6 コマンドで続行します。");
         }
@@ -104,7 +104,7 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
         double cost = getCost();
         boolean paid = EconomyUtil.takeMoney(player, cost);
         if (!paid){
-            Util.message(sender, "&cお金が足りません！ " + cost + "Coin必要です！");
+            Util.message(sender, "&cお金が足りません！ " + cost + "Gold必要です！");
             return;
         }
         
@@ -114,7 +114,7 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
         worker.enableFlymode(sp, minute);
         
         Util.message(player, "&a飛行モードが " + minute + "分間 有効になりました！");
-        LogUtil.info(player.getName() + " is bought flying mode: " + minute + " minutes for " + cost + " coins");
+        LogUtil.info(player.getName() + " is bought flying mode: " + minute + " minutes for " + cost + " gold");
         OrangeServerUtil.sendlog(player, sp.getName() + " &aが飛行権限を購入しました");
     }
 }
