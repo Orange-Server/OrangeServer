@@ -4,7 +4,10 @@
  */
 package net.orange_server.orangeserver.utils.plugin;
 
+import net.orange_server.orangeserver.OSHelper;
+import net.orange_server.orangeserver.OrangeServer;
 import net.orange_server.orangeserver.permission.Perms;
+import net.syamn.utils.economy.EconomyUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -72,5 +75,16 @@ public class OrangeServerUtil {
             return;
         }
         Perms.LOG.message("&c[通知]&f " + msg);
+    }
+    
+    public static boolean addToServerEconAccount(final double amount){
+        if (amount < 0D){
+            return false;
+        }
+        if (OSHelper.getInstance().getConfig().getUseEconomy()){
+            String acc = OSHelper.getInstance().getConfig().getServerEconAccount();
+            return EconomyUtil.addMoney(acc, amount);
+        }
+        return false;
     }
 }

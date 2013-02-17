@@ -124,6 +124,9 @@ public class ConfigurationManager {
     public boolean getUseEconomy(){
         return conf.getBoolean("UseEconomy", true);
     }
+    public String getServerEconAccount(){
+        return conf.getString("ServerEconAccount", "Admin");
+    }
             
     // Flymode
     public double getFlymodeCost(){

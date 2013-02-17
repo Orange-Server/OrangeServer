@@ -108,6 +108,10 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
             return;
         }
         
+        if (!OrangeServerUtil.addToServerEconAccount(cost)){
+            LogUtil.warning("Could not add money to server econ account!");
+        }
+        
         int minute = getDuration();
         
         final FlymodeWorker worker = FlymodeWorker.getInstance();

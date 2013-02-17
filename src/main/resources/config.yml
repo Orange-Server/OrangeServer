@@ -8,6 +8,7 @@
 UseNamePrefix: true
 UseDisplayName: true
 UseEconomy: true
+ServerEconAccount: Admin
 
 #====================#
 #   Flymode Config   #
