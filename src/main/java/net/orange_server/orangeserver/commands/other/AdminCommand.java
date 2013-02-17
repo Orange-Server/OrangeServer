@@ -18,7 +18,7 @@ public class AdminCommand extends BaseCommand {
     public AdminCommand() {
         bePlayer = false;
         name = "admin";
-        perm = Perms.TRUST;
+        perm = Perms.ADMIN;
         argLength = 0;
         usage = "<- admin commands";
     }

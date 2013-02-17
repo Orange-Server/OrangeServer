@@ -30,7 +30,8 @@ public enum Perms {
     // Database Commands
 
     // Other / Admin Commands
-    TRUST ("admin.trust"),
+    //TRUST ("admin.trust"),
+    ADMIN ("admin.admin"),
     ORANGESERVER ("admin.orangeserver"),
     LOG ("admin.log"),
     LOG_HIDE ("admin.log.hide"),
