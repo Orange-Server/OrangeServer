@@ -42,13 +42,13 @@ public class RuleBook {
     }
     
     private RuleBook(final String name, final ItemStack item){
-        this.bookName = name;
+        this.bookName = name.trim();
         this.item = item;
     }
     private RuleBook(final File file){
         ObjectInputStream in = null;
         try {
-            bookName = file.getName().replace(".dat", "");
+            bookName = file.getName().replace(".dat", "").trim();
             in = new ObjectInputStream(new FileInputStream(file));
             
             item = ItemStack.deserialize((Map<String, Object>) in.readObject());
@@ -70,6 +70,7 @@ public class RuleBook {
     
     public void setCost(final double cost){
         this.cost = cost;
+        books.put(this.bookName, this);
     }
     public double getCost(){
         return this.cost;
@@ -77,6 +78,7 @@ public class RuleBook {
     
     public void setItem(final ItemStack item){
         this.item = item;
+        books.put(this.bookName, this);
     }
     public ItemStack getItem(){
         return this.item.clone();
@@ -111,8 +113,11 @@ public class RuleBook {
         }
     }
     
-    public boolean isExist(final String name){
+    public static boolean isExist(final String name){
         return books.containsKey(name.trim());
+    }
+    public static RuleBook getBook(final String name){
+        return books.get(name.trim());
     }
     
     public static void saveBooks(){
