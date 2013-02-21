@@ -24,6 +24,9 @@ public enum Perms {
     
     // Player Commands
     FLYMODE ("player.flymode"),
+    RULEBOOK ("player.rulebook"),
+    RULEBOOK_BUY_HEADER ("player.rulebook.buy"),
+    RULEBOOK_ADMIN ("player.rulebook.admin"),
     
     // World Commands
     
@@ -79,6 +82,13 @@ public enum Perms {
             return false;
         //return perm.hasPermission(node); // only support SuperPerms
         return PermissionManager.hasPerm(perm, this);
+    }
+    
+    public boolean has(final Permissible perm, final String subPerm) {
+        if (perm == null) {
+            return false;
+        }
+        return PermissionManager.hasPerm(perm, this.getNode().concat("." + subPerm));
     }
     
     /**

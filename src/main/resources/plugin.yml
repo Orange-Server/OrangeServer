@@ -20,6 +20,9 @@ commands:
     flymode:
       usage: /flymode - to see the help
       description: See plugin help.
+    rulebook:
+      usage: /rulebook - to see the help
+      description: See plugin help.
 permissions:
     orangeserver.admin:
         default: op

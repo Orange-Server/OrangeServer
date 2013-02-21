@@ -11,6 +11,7 @@ import net.orange_server.orangeserver.commands.other.AdminCommand;
 import net.orange_server.orangeserver.commands.other.ConfirmCommand;
 import net.orange_server.orangeserver.commands.other.OrangeServerCommand;
 import net.orange_server.orangeserver.commands.player.FlymodeCommand;
+import net.orange_server.orangeserver.commands.player.RulebookCommand;
 
 /**
  * CommandRegister (CommandRegister.java)
@@ -28,6 +29,7 @@ public class CommandRegister {
         
         // Player Commands
         cmds.add(new FlymodeCommand());
+        cmds.add(new RulebookCommand());
         
         // World Commands
         

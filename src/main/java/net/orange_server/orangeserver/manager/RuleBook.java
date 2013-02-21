@@ -6,21 +6,18 @@ package net.orange_server.orangeserver.manager;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.orange_server.orangeserver.OrangeServer;
 import net.syamn.utils.LogUtil;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 
 /**
@@ -43,8 +40,9 @@ public class RuleBook {
     
     private RuleBook(final String name, final ItemStack item){
         this.bookName = name.trim();
-        this.item = item;
+        this.item = item.clone();
     }
+    @SuppressWarnings("unchecked")
     private RuleBook(final File file){
         ObjectInputStream in = null;
         try {
@@ -61,15 +59,21 @@ public class RuleBook {
         }
     }
     
-    public RuleBook newBook(String name, final ItemStack item){
+    public static RuleBook newBook(String name, final ItemStack item){
         name = name.trim();
         RuleBook book = new RuleBook(name, item);
+        book.save();
         books.put(book.bookName, book);
         return book;
     }
     
+    public String getName(){
+        return this.bookName;
+    }
+    
     public void setCost(final double cost){
         this.cost = cost;
+        save();
         books.put(this.bookName, this);
     }
     public double getCost(){
@@ -112,6 +116,23 @@ public class RuleBook {
             try { out.close(); } catch (Exception ignore) {}
         }
     }
+    public boolean delete(){
+        File file = new File(getDataDirectory(), bookName + ".dat");
+        if (!file.exists()){
+            this.item = null;
+            books.remove(this.bookName);
+            return true;
+        }
+        
+        if (file.delete()){
+            this.item = null;
+            books.remove(this.bookName);
+            return true;
+        }else{
+            LogUtil.warning("Could not delete rulebook file: " + file.getPath());
+            return false;
+        }
+    }
     
     public static boolean isExist(final String name){
         return books.containsKey(name.trim());
@@ -119,7 +140,10 @@ public class RuleBook {
     public static RuleBook getBook(final String name){
         return books.get(name.trim());
     }
-    
+    public static Map<String, RuleBook> getBooks(){
+        return Collections.unmodifiableMap(books);
+    }
+        
     public static void saveBooks(){
         for (final RuleBook book : books.values()){
             book.save();
