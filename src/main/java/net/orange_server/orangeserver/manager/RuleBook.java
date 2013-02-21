@@ -14,9 +14,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.orange_server.orangeserver.OSHelper;
 import net.orange_server.orangeserver.OrangeServer;
 import net.syamn.utils.LogUtil;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -42,8 +44,26 @@ public class RuleBook {
         this.bookName = name.trim();
         this.item = item.clone();
     }
-    @SuppressWarnings("unchecked")
+    
     private RuleBook(final File file){
+        YamlConfiguration conf = new YamlConfiguration();
+        try{
+            conf.load(file);
+            
+            this.bookName = conf.getString("Name", null).trim();
+            this.cost = conf.getDouble("Cost", 0D);
+            this.item = (ItemStack)conf.get("Item");
+        }catch (Exception ex){
+            LogUtil.warning("Could not load book data (" + file.getName() + "): " + ex.getMessage());
+            if (OSHelper.getInstance().getConfig().isDebug()){
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Deprecated
+    private RuleBook(final File file, boolean old){
         ObjectInputStream in = null;
         try {
             bookName = file.getName().replace(".dat", "").trim();
@@ -53,7 +73,9 @@ public class RuleBook {
             cost = in.readDouble();
         } catch (Exception ex) {
             LogUtil.warning("Could not load book data (" + file.getName() + "): " + ex.getMessage());
-            ex.printStackTrace();
+            if (OSHelper.getInstance().getConfig().isDebug()){
+                ex.printStackTrace();
+            }
         } finally {
             try { in.close(); } catch (Exception ignore) {}
         }
@@ -88,7 +110,33 @@ public class RuleBook {
         return this.item.clone();
     }
     
+    
     public boolean save(){
+        File file = new File(getDataDirectory(), bookName + ".yml");
+        /*
+        if (!file.exists()){
+            file.createNewFile();
+        }
+        */
+        YamlConfiguration conf = new YamlConfiguration();
+        
+        conf.set("Name", bookName);
+        conf.set("Cost", cost);
+        conf.set("Item", item);
+        
+        try{
+            conf.save(file);
+            return true;
+        }catch (IOException ex){
+            LogUtil.warning("Could not save " + bookName + " data: " + ex.getMessage());
+            if (OSHelper.getInstance().getConfig().isDebug()){
+                ex.printStackTrace();
+            }
+            return false;
+        }
+    }
+    @Deprecated
+    public boolean oldSave(){
         ObjectOutputStream out = null;
         try{
             if (bookName == null || item == null){
@@ -111,11 +159,15 @@ public class RuleBook {
             return true;
         } catch (IOException ex) {
             LogUtil.warning("Could not save " + bookName + " data: " + ex.getMessage());
+            if (OSHelper.getInstance().getConfig().isDebug()){
+                ex.printStackTrace();
+            }
             return false;
         } finally {
             try { out.close(); } catch (Exception ignore) {}
         }
     }
+    
     public boolean delete(){
         File file = new File(getDataDirectory(), bookName + ".dat");
         if (!file.exists()){

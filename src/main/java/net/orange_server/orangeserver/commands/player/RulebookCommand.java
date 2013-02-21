@@ -109,8 +109,8 @@ public class RulebookCommand extends BaseCommand{
         }
         
         final ItemStack is = player.getItemInHand();
-        if (is == null || is.getType() != Material.BOOK_AND_QUILL){
-            throw new CommandException("&c手に本を持っていません！");
+        if (is == null || is.getType() != Material.WRITTEN_BOOK){
+            throw new CommandException("&c手に署名済みの本を持っていません！");
         }
         
         RuleBook.newBook(name, is);
