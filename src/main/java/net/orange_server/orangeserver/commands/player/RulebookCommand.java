@@ -144,7 +144,7 @@ public class RulebookCommand extends BaseCommand{
             throw new CommandException("&cルールブック名と価格を指定してください！");
         }
         final String name = args.get(0).trim();
-        if (StrUtil.isDouble(args.get(1))){
+        if (!StrUtil.isDouble(args.get(1))){
             throw new CommandException("&c価格が数値ではありません: " + args.get(1));
         }
         final double cost = Double.parseDouble(args.get(1));
