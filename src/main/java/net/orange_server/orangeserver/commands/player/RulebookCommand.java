@@ -148,6 +148,9 @@ public class RulebookCommand extends BaseCommand{
             throw new CommandException("&c価格が数値ではありません: " + args.get(1));
         }
         final double cost = Double.parseDouble(args.get(1));
+        if (cost < 0){
+            throw new CommandException("&c負数は指定できません！");
+        }
         
         if (!RuleBook.isExist(name)){
             throw new CommandException("&cこの名前のルールブックは存在しません！");
@@ -173,21 +176,24 @@ public class RulebookCommand extends BaseCommand{
         }
         
         // pay cost
-        if (!OSHelper.getInstance().isEnableEcon()){
-            throw new CommandException("&c経済システムが動作していないため使えません！");
-        }
         double cost = book.getCost();
-        boolean paid = EconomyUtil.takeMoney(player, cost);
-        if (!paid){
-            throw new CommandException("&cお金が足りません！ " + cost + "Gold必要です！");
-        }
-        
-        if (!OrangeServerUtil.addToServerEconAccount(cost)){
-            LogUtil.warning("Could not add money to server econ account!");
+        boolean paid = false;
+        if (cost > 0){
+            if (!OSHelper.getInstance().isEnableEcon()){
+                throw new CommandException("&c経済システムが動作していないため使えません！");
+            }
+            paid = EconomyUtil.takeMoney(player, cost);
+            if (!paid){
+                throw new CommandException("&cお金が足りません！ " + cost + "Gold必要です！");
+            }
+            
+            if (!OrangeServerUtil.addToServerEconAccount(cost)){
+                LogUtil.warning("Could not add money to server econ account!");
+            }
         }
         
         inv.addItem(book.getItem());
-        Util.message(sender, "&aルールブック " + book.getName() + " を購入しました！");
+        Util.message(sender, "&aルールブック " + book.getName() + " を" + ((paid) ? "購入" : "入手") + "しました！");
         //OrangeServerUtil.sendlog(player, sp.getName() + " &aがルールブック " + books.getName() + " を購入しました");
     }
     
