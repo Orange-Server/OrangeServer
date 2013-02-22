@@ -9,6 +9,7 @@ UseNamePrefix: true
 UseDisplayName: true
 UseEconomy: true
 ServerEconAccount: Admin
+GiveRulebooksOnFirstJoin: "ServerRule, ServerManner, OtherRule"
 
 #====================#
 #   Flymode Config   #

@@ -127,7 +127,10 @@ public class ConfigurationManager {
     public String getServerEconAccount(){
         return conf.getString("ServerEconAccount", "Admin");
     }
-            
+    public String getGiveRulebooksOnFirstJoin(){
+        return conf.getString("GiveRulebooksOnFirstJoin", "ServerRule, ServerManner, OtherRule");
+    }
+    
     // Flymode
     public double getFlymodeCost(){
         return conf.getDouble("Flymode.Cost", 1000.0D);

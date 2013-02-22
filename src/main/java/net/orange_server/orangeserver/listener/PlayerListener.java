@@ -5,10 +5,13 @@
 package net.orange_server.orangeserver.listener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import net.orange_server.orangeserver.OSHelper;
 import net.orange_server.orangeserver.OrangeServer;
 import net.orange_server.orangeserver.feature.GeoIP;
+import net.orange_server.orangeserver.manager.RuleBook;
 import net.orange_server.orangeserver.permission.Perms;
 import net.orange_server.orangeserver.player.OrangePlayer;
 import net.orange_server.orangeserver.player.PlayerData;
@@ -25,6 +28,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * PlayerListener (PlayerListener.java)
@@ -83,16 +87,49 @@ public class PlayerListener implements Listener{
         });
         
         // First join
-        /*
         if (!player.hasPlayedBefore()) {
-            final int unique = plugin.getServer().getOfflinePlayers().length;
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    Util.broadcastMessage("&6現在のユニークビジター数: " + unique + " プレイヤー");
+            // Give RuleBook
+            final String bookNames[] = OSHelper.getInstance().getConfig().getGiveRulebooksOnFirstJoin().split(",");
+            final List<RuleBook> books = new ArrayList<>();
+            for (String name : bookNames){
+                name = name.trim();
+                if (name.length() <= 0 || !RuleBook.isExist(name)){
+                    continue;
                 }
-            },
-         */
+                books.add(RuleBook.getBook(name));               
+            }
+            
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override public void run() {
+                    if (player == null || !player.isOnline()){
+                        return;
+                    }
+                    
+                    // Rulebook section
+                    if (books.size() <= 0){
+                        return;
+                    }
+                    else {
+                        Iterator<ItemStack> iter = player.getInventory().iterator();
+                        int emptySlot = 0;
+                        while (iter.hasNext()){
+                            if (iter.next() == null){
+                                emptySlot++;
+                            }
+                        }
+                        if (books.size() > emptySlot){
+                            return;
+                        }
+                        
+                        for (final RuleBook book : books){
+                            player.getInventory().addItem(book.getItem());
+                        }
+                        
+                        Util.message(player, "&aルールブックを受け取りました！");
+                    }
+                }
+            },5L);
+        }
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)
