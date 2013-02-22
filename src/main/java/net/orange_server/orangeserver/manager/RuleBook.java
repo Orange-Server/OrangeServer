@@ -66,7 +66,7 @@ public class RuleBook {
     private RuleBook(final File file, boolean old){
         ObjectInputStream in = null;
         try {
-            bookName = file.getName().replace(".dat", "").trim();
+            bookName = file.getName().replace(".yml", "").trim();
             in = new ObjectInputStream(new FileInputStream(file));
             
             item = ItemStack.deserialize((Map<String, Object>) in.readObject());
@@ -143,7 +143,7 @@ public class RuleBook {
                 return false;
             }
             
-            File file = new File(getDataDirectory(), bookName + ".dat");
+            File file = new File(getDataDirectory(), bookName + ".yml");
             if (!file.exists()){
                 file.createNewFile();
             }
@@ -169,7 +169,7 @@ public class RuleBook {
     }
     
     public boolean delete(){
-        File file = new File(getDataDirectory(), bookName + ".dat");
+        File file = new File(getDataDirectory(), bookName + ".yml");
         if (!file.exists()){
             this.item = null;
             books.remove(this.bookName);
