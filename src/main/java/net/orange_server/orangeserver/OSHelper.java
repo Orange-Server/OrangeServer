@@ -6,7 +6,7 @@ package net.orange_server.orangeserver;
 
 import net.orange_server.orangeserver.feature.GeoIP;
 import net.orange_server.orangeserver.listener.feature.MCBansListener;
-import net.orange_server.orangeserver.manager.RuleBook;
+import net.orange_server.orangeserver.listener.feature.RuleBooksListener;
 import net.orange_server.orangeserver.permission.PermissionManager;
 import net.orange_server.orangeserver.player.PlayerManager;
 import net.orange_server.orangeserver.storage.ConfigurationManager;
@@ -48,6 +48,7 @@ public class OSHelper {
     
     private boolean enabledMCB = false;
     private static boolean enabledMCBlistener = false;
+    private static boolean enabledRuleBooklistener = false;
     
     /**
      * プラスグインの初期化時と有効化時に呼ばれる
@@ -61,6 +62,7 @@ public class OSHelper {
             ex.printStackTrace();
         }
         
+        // plugin hooks
         Plugin test = plugin.getServer().getPluginManager().getPlugin("MCBans");
         if (test != null && test.isEnabled()){
             if (!enabledMCBlistener){
@@ -71,6 +73,13 @@ public class OSHelper {
             enabledMCB = true;
         }else{
             enabledMCB = false;
+        }
+        
+        test = plugin.getServer().getPluginManager().getPlugin("RuleBooks");
+        if (!enabledRuleBooklistener){
+            plugin.getServer().getPluginManager().registerEvents(new RuleBooksListener(), plugin);
+            LogUtil.info("RuleBooks integration is enabled!");
+            enabledMCBlistener = true;
         }
         
         // connect database
@@ -106,8 +115,6 @@ public class OSHelper {
             PlayerManager.addPlayer(player);
         }
         
-        RuleBook.loadBooks();
-        
         // last restore save data
         saveData.loadRestore();
     }
@@ -136,7 +143,6 @@ public class OSHelper {
             DynmapHandler.getInstance().deactivate();
         }
         
-        RuleBook.dispose();
         DynmapHandler.dispose();
         ConfirmQueue.dispose();
         GeoIP.dispose();
