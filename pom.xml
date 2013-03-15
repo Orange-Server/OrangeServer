@@ -222,14 +222,14 @@
       <dependency>
           <groupId>org.bukkit</groupId>
           <artifactId>bukkit</artifactId>
-          <version>1.4.7-R0.2-SNAPSHOT</version>
+          <version>1.5-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <!-- CraftBukkit Dependency -->
       <dependency>
           <groupId>org.bukkit</groupId>
           <artifactId>craftbukkit</artifactId>
-          <version>1.4.7-R0.2-SNAPSHOT</version>
+          <version>1.5-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <!-- Vault Dependency -->
@@ -243,7 +243,7 @@
       <dependency>
           <groupId>net.syamn</groupId>
           <artifactId>SakuraLib</artifactId>
-          <version>1.4.7-0.1</version>
+          <version>1.5-0.1</version>
       </dependency>
       <!-- RuleBooks Dependency -->
       <dependency>
