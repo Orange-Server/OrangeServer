@@ -69,6 +69,11 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
                 return;
             }
             
+            if (FlymodeWorker.getInstance().isDenied(player.getName())){
+                throw new CommandException("&c飛行権購入の権限が剥奪されています。しばらくお待ちください。");
+            }
+            
+            // queue confirmation
             ConfirmQueue.getInstance().addQueue(sender, this, null, 15);
             
             Util.message(sender, "&6現在の飛行権価格は &a" + getDuration() + "分間 " + getCost() + " Gold &6です");
@@ -79,6 +84,11 @@ public class FlymodeCommand extends BaseCommand implements Queueable{
     
     @Override
     public void executeQueue(QueuedCommand queued){
+        if (FlymodeWorker.getInstance().isDenied(player.getName())){
+            Util.message(sender, "&c飛行権購入の権限が剥奪されています。しばらくお待ちください。");
+            return;
+        }
+        
         if (player.getLocation().getY() > 257 || player.getLocation().getY() < 0){
             Util.message(sender, "&cあなたの座標からこのコマンドは使えません！");
             return;
