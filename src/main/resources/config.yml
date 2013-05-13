@@ -17,6 +17,8 @@ Flymode:
   Cost: 1000.0
   TimeInMinutes: 20
   PlayerLimit: 5
+  # DenialTimeInMinutes: (be only affected when staff manually disabled someone flymode perm) 
+  DenialTimeInMinutes: 30
 
 #==================#
 #   GeoIP Config   #

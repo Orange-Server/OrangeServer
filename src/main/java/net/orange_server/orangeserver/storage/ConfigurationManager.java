@@ -141,6 +141,9 @@ public class ConfigurationManager {
     public int getFlymodePlayersLimit(){
         return conf.getInt("Flymode.PlayerLimit", 5);
     }
+    public int getFlymodeDenialTimeInMinutes(){
+        return conf.getInt("Flymode.DenialTimeInMinutes", 30);
+    }
     
     // GeoIP
     public boolean getUseGeoIP(){
