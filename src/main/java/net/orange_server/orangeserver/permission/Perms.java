@@ -24,6 +24,7 @@ public enum Perms {
     
     // Player Commands
     FLYMODE ("player.flymode"),
+    FLYDISABLE ("player.flydisable"),
     RULEBOOK ("player.rulebook"),
     RULEBOOK_BUY_HEADER ("player.rulebook.buy"),
     RULEBOOK_ADMIN ("player.rulebook.admin"),

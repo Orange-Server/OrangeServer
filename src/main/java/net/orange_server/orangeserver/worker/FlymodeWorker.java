@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.orange_server.orangeserver.OSHelper;
 import net.orange_server.orangeserver.OrangeServer;
 import net.orange_server.orangeserver.player.OrangePlayer;
 import net.orange_server.orangeserver.player.PlayerData;
@@ -29,6 +30,7 @@ import org.bukkit.entity.Player;
  */
 public class FlymodeWorker {
     private final ConcurrentHashMap<String, Integer> flymodePlayers = new ConcurrentHashMap<String, Integer>();
+    private final ConcurrentHashMap<String, Integer> denialPlayers = new ConcurrentHashMap<String, Integer>();
     
     private static FlymodeWorker instance;
     private OrangeServer plugin;
@@ -157,6 +159,27 @@ public class FlymodeWorker {
             }
         }
     }
+    
+    // denial players
+    public void denialPlayer(final String name){
+        final int denialSeconds = OSHelper.getInstance().getConfig().getFlymodeDenialTimeInMinutes() * 60;
+        denialPlayers.put(name, TimeUtil.getCurrentUnixSec().intValue() + denialSeconds);
+    }
+    public boolean isDenied(final String name){
+        final Integer period = denialPlayers.get(name);
+        if (period == null) return false;
+        
+        if (period.intValue() <= TimeUtil.getCurrentUnixSec().intValue()){
+            denialPlayers.remove(name);
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public int getRemainsDenialSeconds(final String name){
+        if (!isDenied(name)) return 0;
+        return (denialPlayers.get(name).intValue() - TimeUtil.getCurrentUnixSec().intValue()); 
+    }    
     
     // call async
     class FlymodeTask implements Runnable{
